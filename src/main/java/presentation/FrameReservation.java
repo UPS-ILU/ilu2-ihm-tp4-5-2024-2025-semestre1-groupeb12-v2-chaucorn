@@ -22,15 +22,17 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 
 
 @SuppressWarnings("serial")
 public class FrameReservation extends javax.swing.JFrame {
-    private LocalDate selectedDate;
+    private String frenchDate;
     private int selectedNumber;
     private String selectedTimeSlot;
     private DialogReservation dialog;
-    private String selectedTable;
+    private int selectedTableNumber;
 
     public FrameReservation() {
     }
@@ -50,7 +52,7 @@ public class FrameReservation extends javax.swing.JFrame {
         chooseTable.setEnabled(false);  // Initially, disable the list until the number of people is selected
         validerButton.setEnabled(false);
         annulerButton.setEnabled(false);
-        
+        /*
         //Listener for date
         chooseTimeSlot.addActionListener((new java.awt.event.ActionListener() {
             @Override
@@ -73,43 +75,22 @@ public class FrameReservation extends javax.swing.JFrame {
                 }
             }
         });
-        
+        */
         chooseTable.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evt) {
                 if (!evt.getValueIsAdjusting()) {
-                    selectedTable = chooseTable.getSelectedValue();  // Get selected table
+                    String selectedTable = chooseTable.getSelectedValue();  // Get selected table
                     if (selectedTable != null) {
+                        selectedTableNumber = getTableNumber(selectedTable);
+                        dialog.handleTableSelectedEvent(selectedTableNumber);
                         validerButton.setEnabled(true);  // Enable the Valider button
                         System.out.println("Selected table: " + selectedTable);
                     }
                 }
             }
-        });
-        
-        //Listener for date picker
-        
-        
-        
-        // Listener for number of people selection
-        
-        
-        validerButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (selectedTable != null){
-                    JOptionPane.showMessageDialog(null, "Réservation validée pour le " +
-                            selectedDate +
-                            " à " + selectedTimeSlot + " pour " + selectedNumber +
-                            " personnes à la "+ selectedTable);
-                }
-            }
-        });
-       
-          
+        });      
     }
-    
-    
     public void setDialog(DialogReservation dialog) {
         this.dialog = dialog;
     }
@@ -360,9 +341,18 @@ public class FrameReservation extends javax.swing.JFrame {
             model.addElement("Table 6");
         } 
 }
+    
+    private int getTableNumber(String tableName) {
+    if (tableName != null && tableName.startsWith("Table ")) {
+        // Extract the number after "Table "
+        return Integer.parseInt(tableName.replace("Table ", ""));
+    }
+    return -1; // or throw an exception if the table name is invalid
+}
+
     private void validerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonActionPerformed
 
-        
+        dialog.handleValidationEvent();
     }//GEN-LAST:event_validerButtonActionPerformed
 
     private void annulerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerButtonActionPerformed
@@ -373,10 +363,12 @@ public class FrameReservation extends javax.swing.JFrame {
     public void datePickerDateChanged(DateChangeEvent dateEvent) {
         //TODO
         LocalDate selectedDate = dateEvent.getNewDate();
-
+        
         // Check if the date is valid (not null)
         if (selectedDate != null) {
             // Enable the time slot selection ComboBox
+            DateTimeFormatter frenchFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH);
+            frenchDate = selectedDate.format(frenchFormatter);
             chooseTimeSlot.setEnabled(true);
             dialog.handleDateSelectedEvent(selectedDate);  // Call the dialog method
             javax.swing.JOptionPane.showMessageDialog(this, "Date selected: " + selectedDate);

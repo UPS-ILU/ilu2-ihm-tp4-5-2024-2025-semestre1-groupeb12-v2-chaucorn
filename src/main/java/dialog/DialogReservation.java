@@ -7,15 +7,21 @@ package dialog;
 import interface_noyau_fonctionnel.InterfaceNoyauFonctionnel;
 import java.awt.EventQueue;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import presentation.FrameReservation;
 import javax.swing.JOptionPane;
+import java.util.Locale;
+
 
 
 public class DialogReservation {
 
     private FrameReservation frameReservation;
     private InterfaceNoyauFonctionnel inf;
-    LocalDate selectdate;
+    private String frenchDate;
+    private String timeSlot;
+    private int nbGuest;
+    private int tableNumber;
 
     public DialogReservation(InterfaceNoyauFonctionnel inf) {
         this.inf = inf;
@@ -31,6 +37,8 @@ public class DialogReservation {
     public void handleDateSelectedEvent(LocalDate date) {
         //TODO
         if (date != null) {
+            DateTimeFormatter frenchFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH);
+            frenchDate = date.format(frenchFormatter);
             System.out.println("Selected date: " + date);
         // Perform reservation logic based on selected date
         } else {
@@ -41,6 +49,7 @@ public class DialogReservation {
 
     public void handleTimeSelectedEvent(String time) {
         if (time != null) {
+            timeSlot = time;
             System.out.println("Selected time: " + time);
         // Perform reservation logic based on selected date
         } else {
@@ -50,6 +59,7 @@ public class DialogReservation {
 
     public void handleNumOfPersonsSelectedEvent(int nbPersons) {
         if (nbPersons > 0) {
+            nbGuest = nbPersons;
             System.out.println("Selected number of guests: " + nbPersons);
         // Perform reservation logic based on selected date
         } else {
@@ -58,7 +68,12 @@ public class DialogReservation {
     }
 
     public void handleTableSelectedEvent(int numTable) {
-        
+        if (numTable > 0 ){
+            tableNumber = numTable;
+            System.out.println("Selected table: Table " + numTable);
+        } else {
+            System.out.println("No Table selected");
+        }
     }
 
     public void handleCancelEvent() {
@@ -67,7 +82,10 @@ public class DialogReservation {
     }
 
     public void handleValidationEvent() {
-        JOptionPane.showMessageDialog(null, "TESTING CONFIRATION: Date selected: " + selectdate);
+        JOptionPane.showMessageDialog(null, "Réservation validée pour le " +
+                            frenchDate +
+                            " à " + timeSlot + " pour " + nbGuest +
+                            " personnes à la Table"+ tableNumber + ".");
     }
 
     public static void main(String[] args) {
