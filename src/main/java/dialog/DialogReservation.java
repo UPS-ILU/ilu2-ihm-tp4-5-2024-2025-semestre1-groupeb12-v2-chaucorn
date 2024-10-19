@@ -8,11 +8,14 @@ import interface_noyau_fonctionnel.InterfaceNoyauFonctionnel;
 import java.awt.EventQueue;
 import java.time.LocalDate;
 import presentation.FrameReservation;
+import javax.swing.JOptionPane;
+
 
 public class DialogReservation {
 
     private FrameReservation frameReservation;
     private InterfaceNoyauFonctionnel inf;
+    LocalDate selectdate;
 
     public DialogReservation(InterfaceNoyauFonctionnel inf) {
         this.inf = inf;
@@ -27,22 +30,35 @@ public class DialogReservation {
 
     public void handleDateSelectedEvent(LocalDate date) {
         //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (date != null) {
+            System.out.println("Selected date: " + date);
+        // Perform reservation logic based on selected date
+        } else {
+            System.out.println("No date selected.");
+        }
+        
     }
 
     public void handleTimeSelectedEvent(String time) {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (time != null) {
+            System.out.println("Selected time: " + time);
+        // Perform reservation logic based on selected date
+        } else {
+            System.out.println("No time selected.");
+        }
     }
 
     public void handleNumOfPersonsSelectedEvent(int nbPersons) {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (nbPersons > 0) {
+            System.out.println("Selected number of guests: " + nbPersons);
+        // Perform reservation logic based on selected date
+        } else {
+            System.out.println("No number selected.");
+        }
     }
 
     public void handleTableSelectedEvent(int numTable) {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        
     }
 
     public void handleCancelEvent() {
@@ -51,8 +67,7 @@ public class DialogReservation {
     }
 
     public void handleValidationEvent() {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        JOptionPane.showMessageDialog(null, "TESTING CONFIRATION: Date selected: " + selectdate);
     }
 
     public static void main(String[] args) {
