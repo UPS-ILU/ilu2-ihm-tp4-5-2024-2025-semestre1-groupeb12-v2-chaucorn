@@ -49,33 +49,11 @@ public class FrameReservation extends javax.swing.JFrame {
         //Choose selection mode for Table list
         DefaultListModel<String> model = new DefaultListModel<>();
         chooseTable.setModel(model); 
-        chooseTable.setEnabled(false);  // Initially, disable the list until the number of people is selected
+        chooseTable.setEnabled(false);  
         validerButton.setEnabled(false);
         annulerButton.setEnabled(false);
-        /*
-        //Listener for date
-        chooseTimeSlot.addActionListener((new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                selectedTimeSlot = chooseTimeSlot.getSelectedItem().toString();  // Store selected time slot
-                if (selectedTimeSlot != null) {
-                    chooseNbPersonne.setEnabled(true);
-                }
-            }
-        }));
         
-        // Listener for number of people selection
-        chooseNbPersonne.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                selectedNumber = Integer.parseInt(chooseNbPersonne.getSelectedItem().toString());  // Store selected number
-                if (selectedNumber > 0) {
-                    updateTableList(selectedNumber);
-                    chooseTable.setEnabled(true);
-                }
-            }
-        });
-        */
+        //Add Listener for chooseTable
         chooseTable.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evt) {
@@ -119,7 +97,7 @@ public class FrameReservation extends javax.swing.JFrame {
         tableSelectionPanel = new javax.swing.JLabel();
         validerButton = new javax.swing.JButton();
         annulerButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        tablePanel = new javax.swing.JScrollPane();
         chooseTable = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -226,7 +204,7 @@ public class FrameReservation extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(chooseTable);
+        tablePanel.setViewportView(chooseTable);
 
         javax.swing.GroupLayout pickTablePanelLayout = new javax.swing.GroupLayout(pickTablePanel);
         pickTablePanel.setLayout(pickTablePanelLayout);
@@ -247,7 +225,7 @@ public class FrameReservation extends javax.swing.JFrame {
                         .addComponent(annulerButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pickTablePanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41))))
         );
         pickTablePanelLayout.setVerticalGroup(
@@ -261,7 +239,7 @@ public class FrameReservation extends javax.swing.JFrame {
                         .addComponent(tablesImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(pickTablePanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pickTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(validerButton)
@@ -298,30 +276,15 @@ public class FrameReservation extends javax.swing.JFrame {
 
     private void chooseTimeSlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseTimeSlotActionPerformed
         // TODO add your handling code here:
-        String selectedTimeSlot =  chooseTimeSlot.getSelectedItem().toString();
+        selectedTimeSlot =  chooseTimeSlot.getSelectedItem().toString();
         if (selectedTimeSlot != null) {
             chooseNbPersonne.setEnabled(true);
+            dialog.handleTimeSelectedEvent(selectedTimeSlot);
             System.out.println("Selected time slot: " + selectedTimeSlot);
-            javax.swing.JOptionPane.showMessageDialog(this, "You selected: " + selectedTimeSlot);
         } else {
             System.out.println("No time slot selected.");
         }
     }//GEN-LAST:event_chooseTimeSlotActionPerformed
-
-    private void chooseNbPersonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseNbPersonneActionPerformed
-        // TODO add your handling code here:
-        int selectedNbPersons = Integer.parseInt(chooseNbPersonne.getSelectedItem().toString());
-        if(selectedNbPersons > 0){
-            updateTableList(selectedNbPersons);
-            chooseTable.setEnabled(true);
-            dialog.handleNumOfPersonsSelectedEvent(selectedNbPersons);
-            // Display the selected number of people in a message dialog (optional)
-            javax.swing.JOptionPane.showMessageDialog(this, "You selected: " + selectedNbPersons + " people.");
-        }else {
-            System.out.println("No number selected.");
-        }
-        
-    }//GEN-LAST:event_chooseNbPersonneActionPerformed
     private void updateTableList(int nbPersons) {
         // Get the current list model from the chooseTable JList
         DefaultListModel<String> model = (DefaultListModel<String>) chooseTable.getModel();
@@ -344,36 +307,71 @@ public class FrameReservation extends javax.swing.JFrame {
     
     private int getTableNumber(String tableName) {
     if (tableName != null && tableName.startsWith("Table ")) {
-        // Extract the number after "Table "
         return Integer.parseInt(tableName.replace("Table ", ""));
     }
-    return -1; // or throw an exception if the table name is invalid
+    return -1; 
 }
 
     private void validerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonActionPerformed
 
         dialog.handleValidationEvent();
+        annulerButton.setEnabled(true);
+        validerButton.setEnabled(false);
     }//GEN-LAST:event_validerButtonActionPerformed
 
     private void annulerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerButtonActionPerformed
-        // TODO add your handling code here:
+        //Reset datePicker
+        datePicker.clear();
+        
+        //Reset time slot:
+        chooseTimeSlot.setSelectedIndex(-1);
+        chooseTimeSlot.setEnabled(false);
+        
+        //Reset number of Guests:
+        
+        chooseNbPersonne.setSelectedIndex(-1);
+        chooseNbPersonne.setEnabled(false);
+        
+        //Reset choose Table  
+        DefaultListModel<String> model = (DefaultListModel<String>) chooseTable.getModel();
+        model.clear();
+        chooseTable.clearSelection();
+        chooseTable.setEnabled(false);
+        
+        //Reset button
+        validerButton.setEnabled(false);
+        annulerButton.setEnabled(false);
     }//GEN-LAST:event_annulerButtonActionPerformed
+
+    private void chooseNbPersonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseNbPersonneActionPerformed
+        // TODO add your handling code here:
+        int selectedNbPersons = Integer.parseInt(chooseNbPersonne.getSelectedItem().toString());
+        if(selectedNbPersons > 0){
+            updateTableList(selectedNbPersons);
+            chooseTable.setEnabled(true);
+            dialog.handleNumOfPersonsSelectedEvent(selectedNbPersons);
+        }else {
+            System.out.println("No number selected.");
+        }
+
+    }//GEN-LAST:event_chooseNbPersonneActionPerformed
     
     
     public void datePickerDateChanged(DateChangeEvent dateEvent) {
-        //TODO
         LocalDate selectedDate = dateEvent.getNewDate();
-        
+        chooseTimeSlot.setEnabled(false);
+        chooseNbPersonne.setEnabled(false);
+        chooseTable.setEnabled(false);
+        validerButton.setEnabled(false);
+        annulerButton.setEnabled(false);
         // Check if the date is valid (not null)
         if (selectedDate != null) {
             // Enable the time slot selection ComboBox
             DateTimeFormatter frenchFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH);
             frenchDate = selectedDate.format(frenchFormatter);
             chooseTimeSlot.setEnabled(true);
-            dialog.handleDateSelectedEvent(selectedDate);  // Call the dialog method
-            javax.swing.JOptionPane.showMessageDialog(this, "Date selected: " + selectedDate);
+            dialog.handleDateSelectedEvent(selectedDate);
         } else {
-            // If no date is selected or date is cleared, keep the ComboBox disabled
             chooseTimeSlot.setEnabled(false);
             System.out.println("No date selected.");
         }
@@ -388,10 +386,10 @@ public class FrameReservation extends javax.swing.JFrame {
     private javax.swing.JLabel datePanel;
     private com.github.lgooddatepicker.components.DatePicker datePicker;
     private javax.swing.JPanel dateTimePanel;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nbPersonnePanel;
     private javax.swing.JPanel nbPersonsPanel;
     private javax.swing.JPanel pickTablePanel;
+    private javax.swing.JScrollPane tablePanel;
     private javax.swing.JLabel tableSelectionPanel;
     private javax.swing.JLabel tablesImage;
     private javax.swing.JLabel timeSlotPanel;

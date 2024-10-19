@@ -85,7 +85,7 @@ public class DialogReservation {
         JOptionPane.showMessageDialog(null, "Réservation validée pour le " +
                             frenchDate +
                             " à " + timeSlot + " pour " + nbGuest +
-                            " personnes à la Table"+ tableNumber + ".");
+                            " personnes à la Table "+ tableNumber + ".");
     }
 
     public static void main(String[] args) {
