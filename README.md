@@ -1,13 +1,13 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/vRyqtOn9)
 # UPS - Licence Info - ILU2
 
-### NOM :
-### Prénom :
+### NOM : DANG  
+### Prénom : Vu Bao Chau
 ### Groupe de TP :
 - [ ] A11
 - [ ] A12
 - [ ] B11
-- [ ] B12
+- [X] B12
 
 ## Instructions
 
