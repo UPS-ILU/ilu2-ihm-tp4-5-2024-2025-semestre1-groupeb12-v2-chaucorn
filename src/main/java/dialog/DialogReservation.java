@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import presentation.FrameReservation;
 import javax.swing.JOptionPane;
 import java.util.Locale;
+import javax.swing.DefaultListModel;
+
 
 
 
@@ -41,9 +43,7 @@ public class DialogReservation {
             frenchDate = date.format(frenchFormatter);
             System.out.println("Selected date: " + date);
         // Perform reservation logic based on selected date
-        } else {
-            System.out.println("No date selected.");
-        }
+        } 
         
     }
 
@@ -52,9 +52,7 @@ public class DialogReservation {
             timeSlot = time;
             System.out.println("Selected time: " + time);
         // Perform reservation logic based on selected date
-        } else {
-            System.out.println("No time selected.");
-        }
+        } 
     }
 
     public void handleNumOfPersonsSelectedEvent(int nbPersons) {
@@ -62,23 +60,18 @@ public class DialogReservation {
             nbGuest = nbPersons;
             System.out.println("Selected number of guests: " + nbPersons);
         // Perform reservation logic based on selected date
-        } else {
-            System.out.println("No number selected.");
-        }
+        } 
     }
 
     public void handleTableSelectedEvent(int numTable) {
         if (numTable > 0 ){
             tableNumber = numTable;
             System.out.println("Selected table: Table " + numTable);
-        } else {
-            System.out.println("No Table selected");
-        }
+        } 
     }
 
     public void handleCancelEvent() {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        //
     }
 
     public void handleValidationEvent() {

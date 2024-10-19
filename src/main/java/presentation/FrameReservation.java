@@ -63,7 +63,7 @@ public class FrameReservation extends javax.swing.JFrame {
                         selectedTableNumber = getTableNumber(selectedTable);
                         dialog.handleTableSelectedEvent(selectedTableNumber);
                         validerButton.setEnabled(true);  // Enable the Valider button
-                        System.out.println("Selected table: " + selectedTable);
+                        
                     }
                 }
             }
@@ -281,8 +281,6 @@ public class FrameReservation extends javax.swing.JFrame {
             chooseNbPersonne.setEnabled(true);
             dialog.handleTimeSelectedEvent(selectedTimeSlot);
             System.out.println("Selected time slot: " + selectedTimeSlot);
-        } else {
-            System.out.println("No time slot selected.");
         }
     }//GEN-LAST:event_chooseTimeSlotActionPerformed
     private void updateTableList(int nbPersons) {
@@ -350,8 +348,6 @@ public class FrameReservation extends javax.swing.JFrame {
             updateTableList(selectedNbPersons);
             chooseTable.setEnabled(true);
             dialog.handleNumOfPersonsSelectedEvent(selectedNbPersons);
-        }else {
-            System.out.println("No number selected.");
         }
 
     }//GEN-LAST:event_chooseNbPersonneActionPerformed
@@ -373,7 +369,6 @@ public class FrameReservation extends javax.swing.JFrame {
             dialog.handleDateSelectedEvent(selectedDate);
         } else {
             chooseTimeSlot.setEnabled(false);
-            System.out.println("No date selected.");
         }
             
         }
