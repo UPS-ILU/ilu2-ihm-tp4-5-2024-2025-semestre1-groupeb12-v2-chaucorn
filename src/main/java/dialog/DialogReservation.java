@@ -41,6 +41,7 @@ public class DialogReservation {
         if (date != null) {
             DateTimeFormatter frenchFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH);
             frenchDate = date.format(frenchFormatter);
+            JOptionPane.showMessageDialog(null,"Vous avez choisi la date: " + date);
             System.out.println("Selected date: " + date);
         // Perform reservation logic based on selected date
         } 
@@ -52,6 +53,7 @@ public class DialogReservation {
             timeSlot = time;
             System.out.println("Selected time: " + time);
         // Perform reservation logic based on selected date
+            JOptionPane.showMessageDialog(null,"Vous avez choisi le créneau à: " + time);
         } 
     }
 
@@ -60,6 +62,7 @@ public class DialogReservation {
             nbGuest = nbPersons;
             System.out.println("Selected number of guests: " + nbPersons);
         // Perform reservation logic based on selected date
+            JOptionPane.showMessageDialog(null,"Vous avez choisi la place pour: " + nbPersons + " personne(s).");
         } 
     }
 
@@ -67,11 +70,14 @@ public class DialogReservation {
         if (numTable > 0 ){
             tableNumber = numTable;
             System.out.println("Selected table: Table " + numTable);
+            JOptionPane.showMessageDialog(null,"Vous avez choisi la table " + numTable);
         } 
     }
 
     public void handleCancelEvent() {
         //
+        System.out.println("Annulation ");
+        JOptionPane.showMessageDialog(null,"Vous avez annulé la réservation.");
     }
 
     public void handleValidationEvent() {

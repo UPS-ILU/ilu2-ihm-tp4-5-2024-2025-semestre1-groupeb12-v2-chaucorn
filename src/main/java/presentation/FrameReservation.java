@@ -280,7 +280,7 @@ public class FrameReservation extends javax.swing.JFrame {
         if (selectedTimeSlot != null) {
             chooseNbPersonne.setEnabled(true);
             dialog.handleTimeSelectedEvent(selectedTimeSlot);
-            System.out.println("Selected time slot: " + selectedTimeSlot);
+
         }
     }//GEN-LAST:event_chooseTimeSlotActionPerformed
     private void updateTableList(int nbPersons) {
@@ -319,6 +319,7 @@ public class FrameReservation extends javax.swing.JFrame {
 
     private void annulerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerButtonActionPerformed
         //Reset datePicker
+        dialog.handleCancelEvent();
         datePicker.clear();
         
         //Reset time slot:
@@ -339,6 +340,7 @@ public class FrameReservation extends javax.swing.JFrame {
         //Reset button
         validerButton.setEnabled(false);
         annulerButton.setEnabled(false);
+        dialog.handleCancelEvent();
     }//GEN-LAST:event_annulerButtonActionPerformed
 
     private void chooseNbPersonneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseNbPersonneActionPerformed
